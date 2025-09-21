@@ -1,0 +1,7 @@
+#include "./resource.h"
+#include "windows.h"
+
+IDI_MAINICON ICON "../resources/icon.ico"
+IDI_ICON BITMAP "../resources/icon.bmp"
+
+IDI_STARTDIALOG DIALOG 0, 0, 64, 64 {} 
