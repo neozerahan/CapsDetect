@@ -1,4 +1,4 @@
-### Capsdetect display the toggle status of the caps-lock key in an overlay Window.
+### Capsdetect displays the toggle status of the caps-lock key in an overlay Window.
 
 ## Description
 I was getting frustrated unknowningly pressing the caps key while working in Vim. 
