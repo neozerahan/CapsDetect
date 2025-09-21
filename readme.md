@@ -1,6 +1,6 @@
 ### Capsdetect display the toggle status of the caps-lock key in an overlay Window.
 
-##Description
+## Description
 I was getting frustrated unknowningly pressing the caps key while working in Vim. 
 So, I created this tiny 'app' in C using WinAPI to display the toggle status of Caps key on the
 screen as an overlay window.
