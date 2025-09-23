@@ -1,6 +1,6 @@
 # CapsDetect 
 CapsDetect displays the toggle status of the caps-lock key in an overlay Window.
-[A gif of CapsDetect app developed in c using WinApi by Zainuddeen 'Zain' Fahad a.k.a
+![A gif of CapsDetect app developed in c using WinApi by Zainuddeen 'Zain' Fahad a.k.a
 neozerahan](https://github.com/neozerahan/CapsDetect/blob/main/Screenshot/CapsDetect.gif)
 
 ## Description
