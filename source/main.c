@@ -26,6 +26,8 @@ INT_PTR Dlgproc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR pCmdline, int nCmdShow)
 {
 
+   
+
     WNDCLASS windowClass = {0};
 
     windowClass.lpszClassName = "Key Detect Window";
@@ -62,6 +64,23 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR pCmdline, i
     }
 
     DeleteBrush(windowBackgroundBrush);
+ HANDLE appHandle = CreateMutex(NULL, TRUE, "mutex"); 
+
+    if(appHandle == NULL)
+    {
+        printf("Unable to create Mutex handle!\n");
+
+        return 0;
+    }
+
+    if(GetLastError() == ERROR_ALREADY_EXISTS)
+    {
+        MessageBox(NULL, "App already running!", "ERROR", MB_OK | MB_TOPMOST | MB_ICONERROR);
+
+        printf("Release App handle !\n");
+
+        return 0;
+    }
 
     HMONITOR monitorHandle = MonitorFromWindow(windowHandle, MONITOR_DEFAULTTONEAREST) ;
 
@@ -98,9 +117,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR pCmdline, i
 
     SetLayeredWindowAttributes(windowHandle, 0, 128, LWA_ALPHA);
 
+
     ShowWindow(windowHandle, nCmdShow);
 
-    //Hook to check if key is pressed even when if this app is not focused...
+        //Hook to check if key is pressed even when if this app is not focused...
     HHOOK hook = SetWindowsHookEx(WH_KEYBOARD_LL, LowLevelKeyboardProc, hInstance,0);
 
     if(hook == NULL)
@@ -133,6 +153,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR pCmdline, i
     }
 
     printf("Shutting down app!\n");
+
+    ReleaseMutex(appHandle);
+
+    CloseHandle(appHandle);
+
     
     return 0;
 }
@@ -147,6 +172,7 @@ LRESULT CALLBACK WindowProc(HWND windowHandle, UINT windowMessage, WPARAM wParam
     {
         case WM_CREATE:
             {
+
                 DialogBox(NULL, MAKEINTRESOURCE(IDI_STARTDIALOG), windowHandle, Dlgproc);
                 return 0;
             }
@@ -291,7 +317,7 @@ INT_PTR Dlgproc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     switch(msg)
     {
         case WM_INITDIALOG:
-            
+           
             smallFont = CreateFont(15, 0, 0 ,0, FW_DONTCARE,FALSE,FALSE,FALSE,DEFAULT_CHARSET, OUT_OUTLINE_PRECIS,
                     CLIP_DEFAULT_PRECIS, CLEARTYPE_QUALITY, DEFAULT_PITCH, "Helvetica");
 
